@@ -1,3 +1,6 @@
 *venv
 *.DS_Store
 node_modules
+*__pycache__/
+*.vscode/
+*.pyc
