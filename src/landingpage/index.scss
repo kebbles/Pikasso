@@ -1,0 +1,38 @@
+div.info-left {
+    padding: 20px;
+    text-align: 'left';
+    position: "fixed";
+    margin-left: 100px;
+    float: left;
+    text-align: left;
+    width: 30%;
+    background-color: #009393;
+}
+div.gallery {
+    float: right;
+    width: 30%;
+}
+div.instructions {
+    margin-bottom: 20px;
+    color: white;
+}
+.input {
+    color: white;
+}
+h1.title {
+    margin-top: 80px;
+}
+h2.subtitle {
+    margin-bottom: 80px;
+}
+
+/* you can make up upload button and sample style by using stylesheets */
+.ant-upload-select-picture-card i {
+  font-size: 32px;
+  color: #999;
+}
+
+.ant-upload-select-picture-card .ant-upload-text {
+  margin-top: 8px;
+  color: #666;
+}
