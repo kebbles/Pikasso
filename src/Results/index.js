@@ -89,10 +89,10 @@ export default class Results extends Component {
     renderImageData = imageData => {
         return (
             <Paper>
-                <div className="image-data__subheader">
+                <Typography className="image-data__subheader">
                     <div>Detected Object</div>
                     <div>Weight</div>
-                </div>
+                </Typography>
                 <List className="image-data__list">
                 
                     {Object.entries(imageData).map(([name, weight], i) => {
