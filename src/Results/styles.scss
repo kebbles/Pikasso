@@ -1,6 +1,6 @@
 .results-wrapper {
     text-align: left;
-    padding: 20px;
+    padding: 50px;
 }
 
 .results-title {
@@ -10,20 +10,19 @@
 .content {
     display: flex;
     
-    > * {
+    .column-left {
         flex: 1;
     }
 
-    .column-left {
+    .column-center {
         padding-left: 30px;
         padding-right: 30px;
-
+        flex: 1.5;
         .MuiList-root {
             .match__item {
                 box-shadow: 1px 2px 3px 0 gray;
                 border-radius: 10px;
                 margin-bottom: 10px;
-                transition: background-color 0.2s;
 
                 &.Mui-selected {
                     background-color: #009393;
@@ -34,12 +33,19 @@
             }
         }
     }
+
+    .column-right {
+        flex: 1.5;
+        padding: 0;
+    }
 }
 
 .loading {
     &-screen {
         display: flex;
         justify-content: space-around;
+        flex-direction: column;
+        align-items: center;
     }
     &-icon{
         animation: spinning 0.5s linear infinite !important;
@@ -52,8 +58,44 @@
 }
 
 .image-data {
+    &__subheader {
+        display: flex;
+        border-radius: 4px 4px 0 0;
+        background-color: darkturquoise;
+        color: white;
+        padding: 8px 16px;
+        > * {
+            &:first-child {
+                flex: 3;
+            }
+            flex: 1;
+        }
+    }
     &__list {
-        box-shadow: 1px 2px 3px 0 gray;
-        border-radius: 10px;
+        padding: 0px !important;
+        width: unset !important;
+        background-color: white;
+        
+        &:last-child {
+            border-radius: 0 0 4px 4px;
+        }
+        .MuiListItemText-root {
+            &:first-child {
+                flex: 3;
+            }
+            flex: 1;
+        }
+
+        max-height: 245px;
+        overflow-y: auto;
+    }
+
+    
+}
+
+.profile-info {
+    padding: 50px;
+    h2 {
+        margin-top: 0px;
     }
 }
