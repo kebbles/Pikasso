@@ -4,6 +4,7 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
+import Results from './Results';
 
 import Landing from './landingpage';
 import './App.scss';
@@ -15,7 +16,7 @@ class App extends React.Component {
       <BrowserRouter>
         <div className="App">
           <Switch>
-            <Route path="/result" render={() => "hello"} />
+            <Route path="/result" component={Results} />
             <Route path="/" component={Landing} />
           </Switch>
         </div>
