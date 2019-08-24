@@ -19,7 +19,7 @@ class App extends React.Component {
       <BrowserRouter>
         <AppBar position="relative" className="app-bar">
           <Toolbar>
-            <Typography variant="h6" color="inherit" noWrap>
+            <Typography className="logo" variant="h6" color="inherit" noWrap>
               Pikasso
             </Typography>
           </Toolbar>
