@@ -35,3 +35,10 @@ header.app-bar {
     transform: rotate(360deg);
   }
 }
+
+.MuiAppBar-root {
+  height: 60px;
+  > * {
+    margin: auto 50px;
+  }
+}

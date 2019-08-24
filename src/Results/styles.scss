@@ -1,0 +1,59 @@
+.results-wrapper {
+    text-align: left;
+    padding: 20px;
+}
+
+.results-title {
+    text-align: center;
+}
+
+.content {
+    display: flex;
+    
+    > * {
+        flex: 1;
+    }
+
+    .column-left {
+        padding-left: 30px;
+        padding-right: 30px;
+
+        .MuiList-root {
+            .match__item {
+                box-shadow: 1px 2px 3px 0 gray;
+                border-radius: 10px;
+                margin-bottom: 10px;
+                transition: background-color 0.2s;
+
+                &.Mui-selected {
+                    background-color: #009393;
+                    .listText {
+                        color: white;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.loading {
+    &-screen {
+        display: flex;
+        justify-content: space-around;
+    }
+    &-icon{
+        animation: spinning 0.5s linear infinite !important;
+    }
+}
+
+@keyframes spinning {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}
+
+.image-data {
+    &__list {
+        box-shadow: 1px 2px 3px 0 gray;
+        border-radius: 10px;
+    }
+}
