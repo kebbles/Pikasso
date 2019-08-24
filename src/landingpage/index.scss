@@ -1,24 +1,60 @@
 div.info-left {
     padding: 20px;
     text-align: 'left';
-    position: "fixed";
-    margin-left: 100px;
+    margin-left: 300px;
     float: left;
     text-align: left;
     width: 30%;
     background-color: #009393;
+    flex-grow: 1;
 }
 div.gallery {
-    // float: right;
-    // width: 30%;
+    float: left;
 }
 div.instructions {
     margin-bottom: 20px;
     color: white;
+    div {
+        font-size: 1.5em;
+    }
 }
 .input {
     color: white;
+    display: flex;
+    .name {
+        flex-grow: 1;
+    }
+    .submit-button {
+        flex-grow: 2;
+        margin-left: 20px;
+        padding: 20px 20px 0 20px;
+
+        Button {
+            background-color: #ffa500;
+            color: white;
+            font-weight: bold;
+        }
+    }
 }
+label.MuiFormLabel-root {
+    color: white;
+
+    &.Mui-focused {
+        color: white;
+    }
+    ::after {
+        color: white;
+    }
+}
+
+.MuiFilledInput-underline:after {
+    border-bottom: 2px solid white !important;
+}
+
+.MuiInputBase-input {
+    color: white !important;
+}
+
 h1.title {
     margin-top: 80px;
 }
@@ -28,10 +64,10 @@ h2.subtitle {
 
 .main-content {
     display: flex;
-    
-    > * {
-        flex: 1;
-    }
+}
+.column-right {
+    flex-grow: 5;
+    padding-left: 30px;
 }
 
 /* you can make up upload button and sample style by using stylesheets */

@@ -1,29 +1,18 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import './index.scss';
-import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import { Upload, Icon, message } from 'antd';
+import { TextField, Paper, Grid, Button} from '@material-ui/core';
+import 'antd/dist/antd.css';
+import { Upload, Icon, Modal } from 'antd';
 
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
 }
-
-function beforeUpload(file) {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!');
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
-  }
-  return isJpgOrPng && isLt2M;
-}
-
 
 class Landing extends React.Component {
   constructor() {
@@ -32,39 +21,44 @@ class Landing extends React.Component {
       someKey: 'someValue',
       previewVisible: false,
       previewImage: '',
-      files: [],
+      fileList: [],
+      name: "",
     }
   }
+  handleCancel = () => this.setState({ previewVisible: false });
 
-  handleChange = info => {
-    if (info.file.status === 'uploading') {
-      this.setState({ loading: true });
-      return;
+  handlePreview = async file => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
     }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, imageUrl =>
-        this.setState({
-          imageUrl,
-          loading: false,
-        }),
-      );
-    }
+
+    this.setState({
+      previewImage: file.url || file.preview,
+      previewVisible: true,
+    });
+  };
+
+  handleChange = ({ fileList }) => this.setState({ fileList });
+
+  onChange = (event) => {
+    if (event.target.value === null || event.target.value === undefined)
+      return
+    this.setState({ name: event.target.value });
   }
 
   render() {
-    const { previewVisible, previewImage, files } = this.state;
+    const { previewVisible, previewImage, fileList } = this.state;
     const uploadButton = (
       <div>
         <Icon type={this.state.loading ? 'loading' : 'plus'} />
         <div className="ant-upload-text">Upload</div>
       </div>
     );
-    const { imageUrl } = this.state;
+    console.log(this.state.fileList);
     return (
       <span>
         <Typography className="title" component="h1" variant="h2" align="center" color="textPrimary" gutterBottom >
-          Hi, welcome to Pikasso!
+          Hi, Welcome to Pikasso!
         </Typography>
         <Typography className="subtitle" component="h2" variant="h6" align="center" color="textPrimary" gutterBottom >
           Pick Associations and find others with common interests using machine learning
@@ -75,37 +69,45 @@ class Landing extends React.Component {
               <Grid item className="instructions">
                 <div>
                   <span style={{ fontWeight: 'bold' }}>Instructions</span> <br/>
-                  Do this stuff and then do other stuff and more stuf and more stuff and more stuff AND DO MORE STUFF
+                  Upload one or more pictures of your bedroom taken from different angles and we’ll match you with people using an algorithm that we believe share similar interests. <br/>
+                  Enter your name and click Submit to see your results!
                 </div>
               </Grid>
               <Grid item className="input">
                 <TextField
+                  onChange={this.onChange}
                   label="Name"
                   className="name"
-                  type="email"
                   name="Name"
                   autoComplete="Name"
                   margin="normal"
                   variant="filled"
                 />
+                <div className="submit-button">
+                  <Button variant="contained" size={"large"}>
+                    Submit
+                  </Button>
+                </div>
               </Grid>
             </Grid>
           </Paper>
           <div className="column-right">
-          <div className="gallery">
-            <Upload
-              name="avatar"
-              listType="picture-card"
-              className="avatar-uploader"
-              showUploadList={false}
-              accept="image/*"
-              action="http://www.mocky.io/v2/5d6155953200004d008e60a6"
-              beforeUpload={beforeUpload}
-              onChange={this.handleChange}
-            >
-              {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-            </Upload>
-          </div>
+            <div className="gallery">
+              <div className="clearfix">
+                <Upload
+                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                  listType="picture-card"
+                  fileList={fileList}
+                  onPreview={this.handlePreview}
+                  onChange={this.handleChange}
+                >
+                  {fileList.length >= 8 ? null : uploadButton}
+                </Upload>
+                <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+                  <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                </Modal>
+              </div>
+            </div>
           </div>
         </div>
       </span>
