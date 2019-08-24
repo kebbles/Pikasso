@@ -9,8 +9,8 @@ div.info-left {
     background-color: #009393;
 }
 div.gallery {
-    float: right;
-    width: 30%;
+    // float: right;
+    // width: 30%;
 }
 div.instructions {
     margin-bottom: 20px;
@@ -24,6 +24,14 @@ h1.title {
 }
 h2.subtitle {
     margin-bottom: 80px;
+}
+
+.main-content {
+    display: flex;
+    
+    > * {
+        flex: 1;
+    }
 }
 
 /* you can make up upload button and sample style by using stylesheets */

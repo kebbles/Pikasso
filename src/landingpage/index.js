@@ -50,7 +50,7 @@ class Landing extends React.Component {
         }),
       );
     }
-  };
+  }
 
   render() {
     const { previewVisible, previewImage, files } = this.state;
@@ -69,39 +69,44 @@ class Landing extends React.Component {
         <Typography className="subtitle" component="h2" variant="h6" align="center" color="textPrimary" gutterBottom >
           Pick Associations and find others with common interests using machine learning
         </Typography>
-        <Paper className="info-left">
-          <Grid container spacing={2} direction="column" >
-            <Grid item className="instructions">
-              <div>
-                <span style={{ fontWeight: 'bold' }}>Instructions</span> <br/>
-                Do this stuff and then do other stuff and more stuf and more stuff and more stuff AND DO MORE STUFF
-              </div>
+        <div className="main-content">
+          <Paper className="info-left">
+            <Grid container spacing={2} direction="column" >
+              <Grid item className="instructions">
+                <div>
+                  <span style={{ fontWeight: 'bold' }}>Instructions</span> <br/>
+                  Do this stuff and then do other stuff and more stuf and more stuff and more stuff AND DO MORE STUFF
+                </div>
+              </Grid>
+              <Grid item className="input">
+                <TextField
+                  label="Name"
+                  className="name"
+                  type="email"
+                  name="Name"
+                  autoComplete="Name"
+                  margin="normal"
+                  variant="filled"
+                />
+              </Grid>
             </Grid>
-            <Grid item className="input">
-              <TextField
-                label="Name"
-                className="name"
-                type="email"
-                name="Name"
-                autoComplete="Name"
-                margin="normal"
-                variant="filled"
-              />
-            </Grid>
-          </Grid>
-        </Paper>
-        <div className="gallery">
-          <Upload
-            name="avatar"
-            listType="picture-card"
-            className="avatar-uploader"
-            showUploadList={false}
-            action="http://www.mocky.io/v2/5d6155953200004d008e60a6"
-            beforeUpload={beforeUpload}
-            onChange={this.handleChange}
-          >
-            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-          </Upload>
+          </Paper>
+          <div className="column-right">
+          <div className="gallery">
+            <Upload
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+              accept="image/*"
+              action="http://www.mocky.io/v2/5d6155953200004d008e60a6"
+              beforeUpload={beforeUpload}
+              onChange={this.handleChange}
+            >
+              {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+            </Upload>
+          </div>
+          </div>
         </div>
       </span>
     )
