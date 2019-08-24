@@ -91,7 +91,7 @@ export default class Results extends Component {
                     <div className="content">
                         <div className="column-left">
                             {this.renderMatchList()}
-                            {this.renderImageData()}
+                            {this.renderImageData()} 
                         </div>
                         <div className="column-right">
                             {selected === -1? (
