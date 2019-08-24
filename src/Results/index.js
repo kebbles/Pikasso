@@ -4,17 +4,14 @@ import {
     ListItem,
     ListItemText,
     CircularProgress,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow,
     Paper,
     Typography,
-    Divider,
-    ListSubheader
+    ListItemAvatar,
+    Avatar
 } from '@material-ui/core';
+import axios from 'axios';
 import './styles.scss';
+
 export default class Results extends Component {
     
     constructor(props){
@@ -49,40 +46,54 @@ export default class Results extends Component {
                 matchItems: {
                     "asian": 0.9,
                     "flush": 0.8,
-                    "piano": 0.7
+                    "piano": 0.7,
+                    "cute": 9001
                 }
             }
         ];
-
+        
         const imageData = {
             'piano': 0.2,
             'asian': 0.1,
             'flush': 0.3,
-            'kawaii': 0.4,
+            'cute': 0.4,
             'no_weeb': 0.5
         }
 
         setTimeout(() => {
             this.setState({ results: data, imageData: imageData });
-        }, 500);
+        });
     }
 
     renderMatchList = () => {
         return (
-            <List>
-                {this.state.results.map((r, i) => {
-                    return (
-                        <ListItem 
-                        button 
-                        className="match__item" 
-                        key={i} 
-                        onClick={() => this.setState({selected: i})}
-                        selected={i === this.state.selected}>
-                            <ListItemText primary={r.name} className="listText" />
-                        </ListItem>
-                    )
-                })}
-            </List>
+            <Paper>
+                <Typography className="match__list__header">
+                    Matched profiles
+                </Typography>
+                <List className="match__list">
+                    {this.state.results.map((r, i) => {
+                        return (
+                            <>
+                                <ListItem 
+                                divider
+                                button 
+                                className="match__item" 
+                                key={i} 
+                                onClick={() => this.setState({selected: i})}
+                                selected={i === this.state.selected}>
+                                    <ListItemAvatar>
+                                        <Avatar 
+                                        src={`https://api.adorable.io/avatars/122/${r.name.replace(' ', '')}.png`} />
+                                    </ListItemAvatar>
+                                    <ListItemText primary={r.name} className="listText" />
+                                </ListItem>
+                            </>
+                        )
+                    })}
+                </List>
+            </Paper>
+            
         )
     }
 
@@ -90,40 +101,41 @@ export default class Results extends Component {
         return (
             <Paper>
                 <Typography className="image-data__subheader">
-                    <div>Detected Object</div>
-                    <div>Weight</div>
+                    <span>Detected Object</span>
+                    <span>Weight</span>
                 </Typography>
                 <List className="image-data__list">
                 
                     {Object.entries(imageData).map(([name, weight], i) => {
-                        return (<>
-                        <Divider />
+                        return (
                         <ListItem
+                        divider
                         className="image-data__item"
                         key={name}
                         >
                             <ListItemText primary={name}/>
                             <ListItemText primary={weight} />
                         </ListItem>
-                        </>)
+                        )
                     })}
                     
                 </List>
             </Paper>
         )
     }
+
     render() {
         const { selected } = this.state;
         return (
             <div className="results-wrapper">
-            <h1 className="results-title">RESULTS</h1>
-                
-                {this.state.results === undefined || this.state.imageData === undefined ? (
-                        <div className="loading-screen">
-                            <CircularProgress disableShrink className="loading-icon" size={100}/>
-                            <p>Matching you to others...</p>
-                        </div>
-                ) : (
+            {this.state.results === undefined || this.state.imageData === undefined ? (
+                <div className="loading-screen">
+                    <CircularProgress disableShrink className="loading-icon" size={100}/>
+                    <p>Matching you to others...</p>
+                </div>
+            ) : (
+                <>
+                    <h1 className="results-title">RESULTS</h1>
                     <div className="content">
                         <div className="column-left">
                             {this.renderImageData(this.state.imageData)} 
@@ -132,20 +144,24 @@ export default class Results extends Component {
                             {this.renderMatchList()}
                         </div>
                         <div className="column-right">
-                            {selected === -1? (
-                                <h2>Click on a profile on the left to learn more about them!</h2>
-                            ) : (
-                                <Paper className="profile-info">
-                                    <Typography>
-                                    <h2>{this.state.results[selected].name}</h2>
-                                    <p>{this.state.results[selected].info}</p>
-                                    {this.renderImageData(this.state.results[selected].matchItems)}
-                                    </Typography>
+                            <Paper className="profile-info">
+                                {selected === -1? (
+                                    <h2>Select a profile.</h2>
+                                    ) : (
+                                        <>
+                                        <div className="profile__header">
+                                        <Avatar src={`https://api.adorable.io/avatars/122/${this.state.results[selected].name.replace(' ', '')}.png`} />
+                                        <h2>{this.state.results[selected].name}</h2>
+                                        </div>
+                                        <p className="MuiTypography-body1">{this.state.results[selected].info}</p>
+                                        {this.renderImageData(this.state.results[selected].matchItems)}
+                                        </>
+                                    )}
                                 </Paper>
-                            )}
                         </div>
                     </div>
-                )}
+                </>
+            )}
 
                 
             </div>
