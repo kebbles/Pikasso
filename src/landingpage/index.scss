@@ -1,7 +1,11 @@
+h2.subtitle {
+    font-weight: lighter;
+}
 div.info-left {
     padding: 20px;
     text-align: 'left';
-    margin-left: 300px;
+    margin-left: 200px;
+    margin-bottom: 50px;
     float: left;
     text-align: left;
     width: 30%;
@@ -34,6 +38,12 @@ div.instructions {
             color: white;
             font-weight: bold;
         }
+        .Mui-disabled {
+            background-color:rgba(0, 0, 0, 0.12) !important;
+            span {
+                opacity: 0.3;
+            }
+        }
     }
 }
 label.MuiFormLabel-root {
@@ -48,7 +58,7 @@ label.MuiFormLabel-root {
 }
 
 .MuiFilledInput-underline:after {
-    border-bottom: 2px solid white !important;
+    border-bottom: 2px solid #ffa500 !important;
 }
 
 .MuiInputBase-input {
@@ -59,7 +69,7 @@ h1.title {
     margin-top: 80px;
 }
 h2.subtitle {
-    margin-bottom: 80px;
+    margin-bottom: 60px;
 }
 
 .main-content {
@@ -79,4 +89,8 @@ h2.subtitle {
 .ant-upload-select-picture-card .ant-upload-text {
   margin-top: 8px;
   color: #666;
+}
+
+.clearfix {
+    margin-right: 80px;
 }

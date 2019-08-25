@@ -4,7 +4,9 @@ import './index.scss';
 import { TextField, Paper, Grid, Button} from '@material-ui/core';
 import 'antd/dist/antd.css';
 import { Upload, Icon, Modal } from 'antd';
-
+import {
+  Redirect
+} from 'react-router-dom';
 function getBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -47,10 +49,14 @@ class Landing extends React.Component {
   }
 
   handleSubmit = () => {
-    // TODO fill this out. This is called when you click submit
-    const data = [];
+    //This is called when you click submit
+    this.props.handleSubmit(this.state.fileList);
+    
+    this.setState({redirect: true});
+  }
 
-    this.props.handleSubmit(data);
+  renderRedirect = () => {
+    if(this.state.redirect)return <Redirect to="/result" />
   }
 
   render() {
@@ -61,9 +67,9 @@ class Landing extends React.Component {
         <div className="ant-upload-text">Upload</div>
       </div>
     );
-    console.log(this.state.fileList);
     return (
       <span>
+        {this.renderRedirect()}
         <Typography className="title" component="h1" variant="h2" align="center" color="textPrimary" gutterBottom >
           Hi, Welcome to Pikasso!
         </Typography>
@@ -75,8 +81,8 @@ class Landing extends React.Component {
             <Grid container spacing={2} direction="column" >
               <Grid item className="instructions">
                 <div>
-                  <span style={{ fontWeight: 'bold' }}>Instructions</span> <br/>
-                  Upload one or more pictures of your bedroom taken from different angles and we’ll match you with people using an algorithm that we believe share similar interests. <br/>
+                  <span style={{ fontWeight: 'bold' }}>HOW IT WORKS</span> <br/>
+                  Upload one or more pictures of a space that contains personal items which mean a lot to you. They may be taken from different angles and we’ll match you with other people that we believe share similar interests using an algorithm. <br/>
                   Enter your name and click Submit to see your results!
                 </div>
               </Grid>
@@ -91,7 +97,7 @@ class Landing extends React.Component {
                   variant="filled"
                 />
                 <div className="submit-button">
-                  <Button variant="contained" size={"large"} onClick={this.handleSubmit}>
+                  <Button variant="contained" size={"large"} disabled={this.state.fileList.length === 0} onClick={this.handleSubmit}>
                     Submit
                   </Button>
                 </div>
