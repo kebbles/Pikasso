@@ -12,58 +12,65 @@ import {
 import axios from 'axios';
 import './styles.scss';
 
+
 export default class Results extends Component {
     
     constructor(props){
         super(props);
 
-        this.state = {
-            selected: -1
-        }
-    }
-    componentDidMount() {
-        //make api call to get results
-        const data = [
-            {
-                name: 'Eric Liang',
-                info: 'He loves piano and thinks front-end is stupid',
-                matchItems: {
-                    "piano": 0.9,
-                    "asian": 0.9,
-                }
-            },
-            {
-                name: 'Hayden Wang',
-                info: 'He didn\'t sleep last night',
-                matchItems: {
-                    "asian": 0.9,
-                    "flush": 0.5
-                }
-            },
-            {
-                name: 'Enoch Poon',
-                info: 'Has no idea what he\'s doing',
-                matchItems: {
-                    "asian": 0.9,
-                    "flush": 0.8,
-                    "piano": 0.7,
-                    "cute": 9001
-                }
+        const data = Object.entries(this.props.matchData).map(([id, obj]) => {
+            return {
+                id,
+                ...obj,
             }
-        ];
-        
-        const imageData = {
-            'piano': 0.2,
-            'asian': 0.1,
-            'flush': 0.3,
-            'cute': 0.4,
-            'no_weeb': 0.5
-        }
-
-        setTimeout(() => {
-            this.setState({ results: data, imageData: imageData });
         });
 
+        
+        this.state = {
+            results: data.sort((obj1, obj2) => obj1.closeness_ranking - obj2.closeness_ranking),
+            selected: -1,
+        }
+    }
+
+    static defaultProps = {
+        matchData: {
+            "12345": {
+                "full_name": "Eric Liang",
+                "object_associations": {
+                    "Electronics": 5,
+                    "Cars": 3,
+                },
+                "closeness_ranking": 1
+            },
+            "23456": {
+                "full_name": "Bob Builder",
+                "object_associations": {
+                    "Cat": 4
+                },
+                "closeness_ranking": 2
+            },
+            "3": {
+                "full_name": "Enoch Poon",
+                "object_associations": {
+                    "uwu's": 5,
+                    "Frontend": 3,
+                    "Maplestory": 3,
+                    "Rice": 3,
+                    "Food": 3,
+                },
+                "closeness_ranking": 3
+            }
+        },
+        imageData: {
+            'piano': 1,
+            'asian': 5,
+            'flush': 4,
+            'cute': 3,
+            'no_weeb': 1
+        }
+    }
+
+    componentDidMount() {
         
     }
 
@@ -71,14 +78,14 @@ export default class Results extends Component {
         const switchProfile = (num) => {
             this.profileRef.setAttribute('style', 'right: -30.5%');
             setTimeout(() => {
-                this.setState({ selected: num}, () => this.profileRef.setAttribute('style', 'right: 50px'));
+                this.setState({ selected: num }, () => this.profileRef.setAttribute('style', 'right: 50px'));
             }, 200);
         }
         return (
             <Paper>
-                <Typography className="match__list__header">
+                <div className="match__list__header">
                     Matched profiles
-                </Typography>
+                </div>
                 <List className="match__list">
                     {this.state.results.map((r, i) => {
                         return (
@@ -92,9 +99,9 @@ export default class Results extends Component {
                                 selected={i === this.state.selected}>
                                     <ListItemAvatar>
                                         <Avatar 
-                                        src={`https://api.adorable.io/avatars/122/${r.name.replace(' ', '')}.png`} />
+                                        src={`https://api.adorable.io/avatars/122/${r.full_name.replace(' ', '')}.png`} />
                                     </ListItemAvatar>
-                                    <ListItemText primary={r.name} className="listText" />
+                                    <ListItemText primary={r.full_name} className="listText" />
                                 </ListItem>
                             </>
                         )
@@ -106,15 +113,16 @@ export default class Results extends Component {
     }
 
     renderImageData = imageData => {
+        imageData = Object.entries(imageData).sort().sort((obj1, obj2) => obj2[1] - obj1[1])
         return (
             <Paper>
-                <Typography className="image-data__subheader">
+                <div className="image-data__subheader">
                     <span>Detected Object</span>
                     <span>Weight</span>
-                </Typography>
+                </div>
                 <List className="image-data__list">
                 
-                    {Object.entries(imageData).map(([name, weight], i) => {
+                    {imageData.map(([name, weight]) => {
                         return (
                         <ListItem
                         divider
@@ -137,7 +145,7 @@ export default class Results extends Component {
 
         return (
             <div className="results-wrapper">
-            {this.state.results === undefined || this.state.imageData === undefined ? (
+            {this.state.results === undefined || this.props.imageData === undefined ? (
                 <div className="loading-screen">
                     <CircularProgress disableShrink className="loading-icon" size={100}/>
                     <p>Matching you to others...</p>
@@ -147,7 +155,7 @@ export default class Results extends Component {
                     <h1 className="results-title">RESULTS</h1>
                     <div className="content">
                         <div className="column-left">
-                            {this.renderImageData(this.state.imageData)} 
+                            {this.renderImageData(this.props.imageData)} 
                         </div>
                         <div className="column-center">
                             {this.renderMatchList()}
@@ -159,11 +167,11 @@ export default class Results extends Component {
                                 ) : (
                                 <>
                                     <div className="profile__header">
-                                    <Avatar src={`https://api.adorable.io/avatars/122/${results[selected].name.replace(' ', '')}.png`} />
-                                    <h2>{results[selected].name}</h2>
+                                    <Avatar src={`https://api.adorable.io/avatars/122/${results[selected].full_name.replace(' ', '')}.png`} />
+                                    <h2>{results[selected].full_name}</h2>
                                     </div>
-                                    <p className="MuiTypography-body1">{results[selected].info}</p>
-                                    {this.renderImageData(results[selected].matchItems)}
+                                    <p className="MuiTypography-body1">Closeness ranking: {results[selected].closeness_ranking}</p>
+                                    {this.renderImageData(results[selected].object_associations)}
                                 </>
                                 )}
                             </Paper>
