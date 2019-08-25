@@ -39,9 +39,9 @@
             color: white;
             background-color: darkslateblue;
             border-radius: 4px 4px 0 0;
+            font-size: 20px;
+            font-weight: 600;
         }
-
-        
     }
 
     &__item {
@@ -78,6 +78,8 @@
         background-color: #009393;
         color: white;
         padding: 8px 16px;
+        font-size: 20px;
+        font-weight: 600;
         > * {
             &:first-child {
                 flex: 3;
