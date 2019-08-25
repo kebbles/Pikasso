@@ -47,10 +47,8 @@ class Landing extends React.Component {
   }
 
   handleSubmit = () => {
-    // TODO fill this out. This is called when you click submit
-    const data = [];
-
-    this.props.handleSubmit(data);
+    //This is called when you click submit
+    this.props.handleSubmit(this.state.fileList);
   }
 
   render() {
@@ -61,7 +59,6 @@ class Landing extends React.Component {
         <div className="ant-upload-text">Upload</div>
       </div>
     );
-    console.log(this.state.fileList);
     return (
       <span>
         <Typography className="title" component="h1" variant="h2" align="center" color="textPrimary" gutterBottom >
@@ -75,8 +72,8 @@ class Landing extends React.Component {
             <Grid container spacing={2} direction="column" >
               <Grid item className="instructions">
                 <div>
-                  <span style={{ fontWeight: 'bold' }}>Instructions</span> <br/>
-                  Upload one or more pictures of your bedroom taken from different angles and we’ll match you with people using an algorithm that we believe share similar interests. <br/>
+                  <span style={{ fontWeight: 'bold' }}>HOW IT WORKS</span> <br/>
+                  Upload one or more pictures of a space that contains personal items which mean a lot to you. They may be taken from different angles and we’ll match you with other people that we believe share similar interests using an algorithm. <br/>
                   Enter your name and click Submit to see your results!
                 </div>
               </Grid>
@@ -91,7 +88,7 @@ class Landing extends React.Component {
                   variant="filled"
                 />
                 <div className="submit-button">
-                  <Button variant="contained" size={"large"} onClick={this.handleSubmit}>
+                  <Button variant="contained" size={"large"} disabled={this.state.fileList.length === 0} onClick={this.handleSubmit}>
                     Submit
                   </Button>
                 </div>
