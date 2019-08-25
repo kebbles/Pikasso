@@ -30,6 +30,7 @@ class Landing extends React.Component {
   handleCancel = () => this.setState({ previewVisible: false });
 
   handlePreview = async file => {
+    console.log(file);
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
@@ -40,7 +41,9 @@ class Landing extends React.Component {
     });
   };
 
-  handleChange = ({ fileList }) => this.setState({ fileList });
+  handleChange = ({ fileList }) => {
+    this.setState({ fileList });
+  }
 
   onChange = (event) => {
     if (event.target.value === null || event.target.value === undefined)
