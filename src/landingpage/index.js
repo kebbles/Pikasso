@@ -4,7 +4,9 @@ import './index.scss';
 import { TextField, Paper, Grid, Button} from '@material-ui/core';
 import 'antd/dist/antd.css';
 import { Upload, Icon, Modal } from 'antd';
-
+import {
+  Redirect
+} from 'react-router-dom';
 function getBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -49,6 +51,12 @@ class Landing extends React.Component {
   handleSubmit = () => {
     //This is called when you click submit
     this.props.handleSubmit(this.state.fileList);
+    
+    this.setState({redirect: true});
+  }
+
+  renderRedirect = () => {
+    if(this.state.redirect)return <Redirect to="/result" />
   }
 
   render() {
@@ -61,6 +69,7 @@ class Landing extends React.Component {
     );
     return (
       <span>
+        {this.renderRedirect()}
         <Typography className="title" component="h1" variant="h2" align="center" color="textPrimary" gutterBottom >
           Hi, Welcome to Pikasso!
         </Typography>
