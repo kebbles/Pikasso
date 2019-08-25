@@ -109,13 +109,41 @@ export default class Results extends Component {
         )
     }
 
-    renderImageData = imageData => {
+    renderComparisonData = imageData => {
         imageData = Object.entries(imageData).sort().sort((obj1, obj2) => obj2[1] - obj1[1])
         return (
             <Paper>
                 <div className="image-data__subheader">
                     <span>Detected Object</span>
                     <span>Association Strength</span>
+                </div>
+                <List className="image-data__list">
+                
+                    {imageData.map(([name, weight]) => {
+                        return (
+                        <ListItem
+                        divider
+                        className="image-data__item"
+                        key={name}
+                        >
+                            <ListItemText primary={name}/>
+                            <ListItemText primary={weight} />
+                        </ListItem>
+                        )
+                    })}
+                    
+                </List>
+            </Paper>
+        )
+    }
+
+    renderImageData = imageData => {
+        imageData = Object.entries(imageData).sort().sort((obj1, obj2) => obj2[1] - obj1[1])
+        return (
+            <Paper>
+                <div className="image-data__subheader">
+                    <span>Detected Object</span>
+                    <span>Weight</span>
                 </div>
                 <List className="image-data__list">
                 
@@ -168,7 +196,7 @@ export default class Results extends Component {
                                     <h2>{results[selected].full_name}</h2>
                                     </div>
                                     <p className="MuiTypography-body1">Closeness ranking: {results[selected].closeness_ranking}</p>
-                                    {this.renderImageData(results[selected].object_associations)}
+                                    {this.renderComparisonData(results[selected].object_associations)}
                                 </>
                                 )}
                             </Paper>
