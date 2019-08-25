@@ -18,14 +18,16 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      data: undefined
+      matchData: undefined
     }
   }
 
   handleSubmit = (data) => {
-    this.setState({
-      matchData: data
-    })
+    const model = {
+      id: 10,
+      photos: data
+    }
+    //api call with pushing model to backend, getting payload, then set state to matchData
   }
   
   render() {
@@ -41,7 +43,7 @@ class App extends React.Component {
         <div className="App">
           <Switch>
             <Route path="/result"><Results data={this.state.matchData} /></Route>
-            <Route path="/" component={Landing} />
+            <Route path="/"><Landing handleSubmit={this.handleSubmit} /> </Route>
           </Switch>
         </div>
       </BrowserRouter>
