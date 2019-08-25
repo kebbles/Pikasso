@@ -58,7 +58,7 @@ class DBManager:
                                       "user_preferences": {
                                           "Electronics": 0.0, "Computer": 0.0, "Screen": 0.0
                                       }})
-        self.user_repo_client.create({"user_id": 234, "full_name": "John",
+        self.user_repo_client.create({"user_id": 123, "full_name": "John",
                                       "user_preferences": {
                                           "Electronics": 0.0, "Screen": 0.0
                                       }})
@@ -66,9 +66,8 @@ class DBManager:
                                       "user_preferences": {
                                           "Computer": 0.0, "Screen": 0.0
                                       }})
-        # GlobalFrequencySchema(object_name="Electronics", object_freq=5).save()
-        print("here")
         self.global_repo_client.create({"object_name": "Electronics", "object_freq": 5})
+        self.global_repo_client.create({"object_name": "Screen", "object_freq": 2})
         global_user_freq = {}
         for (key, value) in preference_results.items():
             # table_item = GlobalFrequencySchema.objects(object_name=key)
@@ -80,7 +79,9 @@ class DBManager:
                 self.global_repo_client.create({"object_name": key, "object_freq": value})
                 global_user_freq[key] = value
         user_uniqueness_freq = self.calculate_uniqueness(global_user_freq)
-        print(user_uniqueness_freq)
+        if not self.user_repo_client.find({"user_id": user_id}):
+            self.user_repo_client.create({"user_id": user_id, "full_name": "##TEMP##",
+                                          "user_preferences": {}})
         for user in self.user_repo_client.find_all({}):
             other_user_freq = {}
             for (key, value) in user["user_preferences"].items():
@@ -92,7 +93,7 @@ class DBManager:
                                          {"$set": {"user_preferences": self.calculate_uniqueness(other_user_freq)}})
             # UserPreferenceSchema.objects(user_id=user.user_id)\
             #     .update(set__user_preferences=self.calculate_uniqueness(other_user_freq))
-        output = {}
+        matches = {}
         ranking_pool = OrderedDict()
         for user in self.user_repo_client.find_all({"user_id": {"$ne": user_id}}):
             closeness_sum = 0
@@ -108,7 +109,7 @@ class DBManager:
                         closeness_count += 2
                         object_associations[key] = closeness_mapping
             if closeness_count != 0:
-                output[user["user_id"]] = {"full_name": user["full_name"], "object_associations": object_associations,
+                matches[user["user_id"]] = {"full_name": user["full_name"], "object_associations": object_associations,
                                         "closeness_ranking": None}
                 ranking_pool[user["user_id"]] = closeness_sum/closeness_count
         ranking_pool = sorted(ranking_pool.items(), key=itemgetter(1))
@@ -116,7 +117,10 @@ class DBManager:
         for i, (key, value) in zip(range(len(ranking_pool)), dict(ranking_pool).items()):
             enumerated_ranking_pool[key] = i + 1
         for (key, value) in enumerated_ranking_pool.items():
-            output[key]["closeness_ranking"] = value
+            matches[key]["closeness_ranking"] = value
+        output = {}
+        output["matches"] = matches
+        output["self"] = self.user_repo_client.find({"user_id": user_id})["user_preferences"]
         self.global_repo_client.delete({})
         self.user_repo_client.delete({})
         return output
