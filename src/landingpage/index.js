@@ -74,7 +74,7 @@ class Landing extends React.Component {
           Hi, Welcome to Pikasso!
         </Typography>
         <Typography className="subtitle" component="h2" variant="h6" align="center" color="textPrimary" gutterBottom >
-          Pick Associations and find others with common interests using machine learning
+          Pic Associations and find others with common interests using machine learning
         </Typography>
         <div className="main-content">
           <Paper className="info-left">
