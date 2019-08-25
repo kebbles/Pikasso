@@ -1,0 +1,30 @@
+.App {
+  text-align: center;
+}
+
+header.app-bar {
+  background-color: #009393;
+}
+.logo {
+  font-family:'Aguafina Script' !important;
+  font-size: 2.5em !important;
+}
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.MuiAppBar-root {
+  height: 60px;
+  > * {
+    margin: auto 50px;
+  }
+}
