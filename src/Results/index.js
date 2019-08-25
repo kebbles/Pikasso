@@ -26,7 +26,7 @@ export default class Results extends Component {
 
         const results = data.sort((obj1, obj2) => obj1.closeness_ranking - obj2.closeness_ranking)
         this.state = {
-            results: results.length? results : undefined,
+            results: results.length? results : [],
             selected: -1,
         }
     }
