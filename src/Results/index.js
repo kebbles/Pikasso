@@ -31,34 +31,35 @@ export default class Results extends Component {
     }
 
     static defaultProps = {
-        matchData: {
-            "12345": {
-                "full_name": "Eric Liang",
-                "object_associations": {
-                    "Electronics": 5,
-                    "Cars": 3,
-                },
-                "closeness_ranking": 1
-            },
-            "23456": {
-                "full_name": "Bob Builder",
-                "object_associations": {
-                    "Cat": 4
-                },
-                "closeness_ranking": 2
-            },
-            "3": {
-                "full_name": "Enoch Poon",
-                "object_associations": {
-                    "uwu's": 5,
-                    "Frontend": 3,
-                    "Maplestory": 3,
-                    "Rice": 3,
-                    "Food": 3,
-                },
-                "closeness_ranking": 3
-            }
-        },
+        // matchData: {
+        //     "12345": {
+        //         "full_name": "Eric Liang",
+        //         "object_associations": {
+        //             "Electronics": 5,
+        //             "Cars": 3,
+        //         },
+        //         "closeness_ranking": 1
+        //     },
+        //     "23456": {
+        //         "full_name": "Bob Builder",
+        //         "object_associations": {
+        //             "Cat": 4
+        //         },
+        //         "closeness_ranking": 2
+        //     },
+        //     "3": {
+        //         "full_name": "Enoch Poon",
+        //         "object_associations": {
+        //             "uwu's": 5,
+        //             "Frontend": 3,
+        //             "Maplestory": 3,
+        //             "Rice": 3,
+        //             "Food": 3,
+        //         },
+        //         "closeness_ranking": 3
+        //     }
+        // },
+        matchData: [],
         imageData: {
             'piano': 0.1,
             'asian': 0.3,
@@ -170,10 +171,10 @@ export default class Results extends Component {
 
         return (
             <div className="results-wrapper">
-            {this.state.results === undefined || this.props.imageData === undefined ? (
+            {this.state.results === [] || this.props.imageData === undefined ? (
                 <div className="loading-screen">
                     <CircularProgress disableShrink className="loading-icon" size={100}/>
-                    <p>Matching you to others...</p>
+                    <p>Matching you to other profiles...</p>
                 </div>
             ) : (
                 <>

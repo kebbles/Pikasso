@@ -5,10 +5,10 @@ import Typography from '@material-ui/core/Typography';
 import {
   BrowserRouter,
   Route,
-  Switch
+  Switch,
 } from 'react-router-dom';
 import Results from './Results';
-
+import axios from 'axios';
 import Landing from './landingpage';
 import './App.scss';
 
@@ -28,8 +28,12 @@ class App extends React.Component {
       photos: data
     }
     //api call with pushing model to backend, getting payload, then set state to matchData
+    axios.post('http://127.0.0.1:3000/', model)
+      .then(res => {
+        this.setState({matchData: res.data });
+      })
   }
-  
+
   render() {
     return (
       <BrowserRouter>
@@ -42,7 +46,7 @@ class App extends React.Component {
         </AppBar>
         <div className="App">
           <Switch>
-            <Route path="/result"><Results data={this.state.matchData} /></Route>
+            <Route path="/result"><Results matchData={this.state.matchData} /></Route>
             <Route path="/"><Landing handleSubmit={this.handleSubmit} /> </Route>
           </Switch>
         </div>
