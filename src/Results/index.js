@@ -87,12 +87,15 @@ export default class Results extends Component {
         //     }
         // },
         matchData: {},
+        // imageData: {
+        //     'piano': 0.1,
+        //     'asian': 0.3,
+        //     'flush': 0.3,
+        //     'cute': 0.2,
+        //     'no_weeb': 0.1
+        // }
         imageData: {
-            'piano': 0.1,
-            'asian': 0.3,
-            'flush': 0.3,
-            'cute': 0.2,
-            'no_weeb': 0.1
+            
         }
     }
 
@@ -207,9 +210,9 @@ export default class Results extends Component {
                 <>
                     <h1 className="results-title">RESULTS</h1>
                     <div className="content">
-                        {/* <div className="column-left">
+                        <div className="column-left">
                             {this.renderImageData(this.props.imageData)} 
-                        </div> */}
+                        </div>
                         <div className="column-center">
                             {this.renderMatchList()}
                         </div>
