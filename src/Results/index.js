@@ -24,15 +24,24 @@ export default class Results extends Component {
             }
         });
 
-        const results = data.sort((obj1, obj2) => obj1.closeness_ranking - obj2.closeness_ranking)
+        const results = data.sort((obj1, obj2) => obj1.closeness_ranking - obj2.closeness_ranking);
         this.state = {
-            results: results.length? results : [],
+            results: results.length? results : undefined,
             selected: -1,
         }
     }
 
     componentDidUpdate(prevProps) {
-        if(_.deepEquals(this.props.matchData, prevProps.matchData)){
+        if(!_.isEqual(this.props.matchData, prevProps.matchData)){
+            console.log(this.props.matchData);
+            if(String(this.props.matchData) === '{}'){
+                this.setState({
+                    results: undefined,
+                    selected: -1,
+                })
+                return;
+            }
+
             const data = Object.entries(this.props.matchData).map(([id, obj]) => {
                 return {
                     id,
@@ -77,7 +86,7 @@ export default class Results extends Component {
         //         "closeness_ranking": 3
         //     }
         // },
-        matchData: [],
+        matchData: {},
         imageData: {
             'piano': 0.1,
             'asian': 0.3,
@@ -116,7 +125,7 @@ export default class Results extends Component {
                             selected={i === this.state.selected}>
                                 <ListItemAvatar>
                                     <Avatar 
-                                    src={`https://api.adorable.io/avatars/122/${r.full_name.replace(' ', '')}.png`} />
+                                    src={`https://api.adorable.io/avatars/122/${String(r.full_name).replace(' ', '')}.png`} />
                                 </ListItemAvatar>
                                 <ListItemText primary={r.full_name} className="listText" />
                             </ListItem>
