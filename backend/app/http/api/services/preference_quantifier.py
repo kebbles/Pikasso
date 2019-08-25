@@ -26,7 +26,6 @@ class PreferenceQuantifier(object):
                     label_count[parent.get("Name")] += 1
                 else:
                     label_count[parent.get("Name")] = 1
-        print(label_count)
         return label_count
     
     # def find_scale_preferences(self, image, user_id):
