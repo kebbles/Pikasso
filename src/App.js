@@ -14,6 +14,20 @@ import './App.scss';
 
 class App extends React.Component {
 
+  constructor(props){
+    super(props);
+
+    this.state = {
+      data: undefined
+    }
+  }
+
+  handleSubmit = (data) => {
+    this.setState({
+      matchData: data
+    })
+  }
+  
   render() {
     return (
       <BrowserRouter>
@@ -26,7 +40,7 @@ class App extends React.Component {
         </AppBar>
         <div className="App">
           <Switch>
-            <Route path="/result" component={Results} />
+            <Route path="/result"><Results data={this.state.matchData} /></Route>
             <Route path="/" component={Landing} />
           </Switch>
         </div>

@@ -46,6 +46,13 @@ class Landing extends React.Component {
     this.setState({ name: event.target.value });
   }
 
+  handleSubmit = () => {
+    // TODO fill this out. This is called when you click submit
+    const data = [];
+
+    this.props.handleSubmit(data);
+  }
+
   render() {
     const { previewVisible, previewImage, fileList } = this.state;
     const uploadButton = (
@@ -84,7 +91,7 @@ class Landing extends React.Component {
                   variant="filled"
                 />
                 <div className="submit-button">
-                  <Button variant="contained" size={"large"}>
+                  <Button variant="contained" size={"large"} onClick={this.handleSubmit}>
                     Submit
                   </Button>
                 </div>
