@@ -81,7 +81,7 @@ class DBManager:
         user_uniqueness_freq = self.calculate_uniqueness(global_user_freq)
         if not self.user_repo_client.find({"user_id": user_id}):
             self.user_repo_client.create({"user_id": user_id, "full_name": "##TEMP##",
-                                          "user_preferences": {}})
+                                          "user_preferences": user_uniqueness_freq})
         for user in self.user_repo_client.find_all({}):
             other_user_freq = {}
             for (key, value) in user["user_preferences"].items():
@@ -123,4 +123,5 @@ class DBManager:
         output["self"] = self.user_repo_client.find({"user_id": user_id})["user_preferences"]
         self.global_repo_client.delete({})
         self.user_repo_client.delete({})
+        print(output)
         return output
