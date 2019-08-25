@@ -5,11 +5,9 @@ import {
     ListItemText,
     CircularProgress,
     Paper,
-    Typography,
     ListItemAvatar,
     Avatar
 } from '@material-ui/core';
-import axios from 'axios';
 import './styles.scss';
 
 
@@ -62,11 +60,11 @@ export default class Results extends Component {
             }
         },
         imageData: {
-            'piano': 1,
-            'asian': 5,
-            'flush': 4,
-            'cute': 3,
-            'no_weeb': 1
+            'piano': 0.1,
+            'asian': 0.3,
+            'flush': 0.3,
+            'cute': 0.2,
+            'no_weeb': 0.1
         }
     }
 
@@ -76,7 +74,8 @@ export default class Results extends Component {
 
     renderMatchList = () => {
         const switchProfile = (num) => {
-            this.profileRef.setAttribute('style', 'right: -30.5%');
+            if(this.state.selected === num)return;
+            this.profileRef.setAttribute('style', 'right: -32.5%');
             setTimeout(() => {
                 this.setState({ selected: num }, () => this.profileRef.setAttribute('style', 'right: 50px'));
             }, 200);
@@ -89,26 +88,52 @@ export default class Results extends Component {
                 <List className="match__list">
                     {this.state.results.map((r, i) => {
                         return (
-                            <>
-                                <ListItem 
-                                divider
-                                button 
-                                className="match__item" 
-                                key={i} 
-                                onClick={() => switchProfile(i)}
-                                selected={i === this.state.selected}>
-                                    <ListItemAvatar>
-                                        <Avatar 
-                                        src={`https://api.adorable.io/avatars/122/${r.full_name.replace(' ', '')}.png`} />
-                                    </ListItemAvatar>
-                                    <ListItemText primary={r.full_name} className="listText" />
-                                </ListItem>
-                            </>
+                            <ListItem 
+                            divider
+                            button 
+                            className="match__item" 
+                            key={i} 
+                            onClick={() => switchProfile(i)}
+                            selected={i === this.state.selected}>
+                                <ListItemAvatar>
+                                    <Avatar 
+                                    src={`https://api.adorable.io/avatars/122/${r.full_name.replace(' ', '')}.png`} />
+                                </ListItemAvatar>
+                                <ListItemText primary={r.full_name} className="listText" />
+                            </ListItem>
                         )
                     })}
                 </List>
             </Paper>
             
+        )
+    }
+
+    renderComparisonData = imageData => {
+        imageData = Object.entries(imageData).sort().sort((obj1, obj2) => obj2[1] - obj1[1])
+        return (
+            <Paper>
+                <div className="image-data__subheader">
+                    <span>Detected Object</span>
+                    <span>Association Strength</span>
+                </div>
+                <List className="image-data__list">
+                
+                    {imageData.map(([name, weight]) => {
+                        return (
+                        <ListItem
+                        divider
+                        className="image-data__item"
+                        key={name}
+                        >
+                            <ListItemText primary={name}/>
+                            <ListItemText primary={weight} />
+                        </ListItem>
+                        )
+                    })}
+                    
+                </List>
+            </Paper>
         )
     }
 
@@ -171,7 +196,7 @@ export default class Results extends Component {
                                     <h2>{results[selected].full_name}</h2>
                                     </div>
                                     <p className="MuiTypography-body1">Closeness ranking: {results[selected].closeness_ranking}</p>
-                                    {this.renderImageData(results[selected].object_associations)}
+                                    {this.renderComparisonData(results[selected].object_associations)}
                                 </>
                                 )}
                             </Paper>
