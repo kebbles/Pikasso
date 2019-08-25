@@ -23,12 +23,14 @@ class App extends React.Component {
   }
 
   handleSubmit = (data) => {
-    const model = {
-      id: 10,
-      photos: data
-    }
+    const model = new FormData();
+    data.forEach((file, i) => {
+      model.append(i, file.originFileObj);
+    });
+    model.append("id", 10);
     //api call with pushing model to backend, getting payload, then set state to matchData
-    axios.post('http://127.0.0.1:3000/', model)
+    axios.post('http://127.0.0.1:3000/image_learn', model,
+      {"headers": {'content-type': 'multipart/form-data'}})
       .then(res => {
         this.setState({matchData: res.data });
       })

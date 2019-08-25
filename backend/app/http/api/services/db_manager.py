@@ -53,11 +53,8 @@ class DBManager:
                     preference_results[label] += freq
                 else:
                     preference_results[label] = freq
-        # UserPreferenceSchema(user_id=123, full_name="Eric", user_preferences={
-        #     "Electronics": 0.7, "Computer": 0.25, "Banana": 0.05
-        # }).save()
-        UserPreferenceSchema(user_id=456, full_name="John", user_preferences={
-            "Electronics": 0.60, "Computer": 0.20, "White Board": 0.20
+        UserPreferenceSchema(user_id=456, full_name="Eric", user_preferences={
+            "Electronics": 0.0, "Computer": 0.0, "Monitor": 0.0, "Screen": 0.0
         }).save()
         GlobalFrequencySchema(object_name="Electronics", object_freq=5).save()
         global_user_freq = {}
@@ -70,6 +67,7 @@ class DBManager:
                 GlobalFrequencySchema(object_name=key, object_freq=value).save()
                 global_user_freq[key] = value
         user_uniqueness_freq = self.calculate_uniqueness(global_user_freq)
+        print(user_uniqueness_freq)
         for user in UserPreferenceSchema.objects:
             other_user_freq = {}
             for (key, value) in user.user_preferences.items():
