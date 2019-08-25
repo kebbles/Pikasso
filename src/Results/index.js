@@ -88,14 +88,14 @@ export default class Results extends Component {
         // },
         matchData: {},
         // imageData: {
-        //     'piano': 0.1,
-        //     'asian': 0.3,
-        //     'flush': 0.3,
-        //     'cute': 0.2,
-        //     'no_weeb': 0.1
+        //     'piano': 0.1333,
+        //     'asian': 0.333,
+        //     'flush': 0.3333,
+        //     'cute': 0.2333,
+        //     'no_weeb': 0.1333
         // }
         imageData: {
-            
+
         }
     }
 
@@ -179,6 +179,7 @@ export default class Results extends Component {
                 <List className="image-data__list">
                 
                     {imageData.map(([name, weight]) => {
+                        weight *= 100;
                         return (
                         <ListItem
                         divider
@@ -186,7 +187,7 @@ export default class Results extends Component {
                         key={name}
                         >
                             <ListItemText primary={name}/>
-                            <ListItemText primary={weight} />
+                            <ListItemText primary={`${weight.toFixed(2)}%`} />
                         </ListItem>
                         )
                     })}
