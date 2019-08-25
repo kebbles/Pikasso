@@ -9,7 +9,7 @@ CORS(app)
 
 @app.route("/image_learn", methods=["POST"])
 def image_learn():
-    association_results = DBManager().find_unique_preferences(request.files.get("image"), 123)
+    association_results = DBManager().find_unique_preferences([request.files.get("image")], 123)
     return json_response(association_results)
 
 
