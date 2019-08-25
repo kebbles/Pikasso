@@ -1,5 +1,10 @@
 # Pikasso
 
+## Contributors
+Hayden Wang - kebbles
+Xi Xin (Eric) Liang - Exxliang
+Enoch Poon - EnochPoon
+
 ## Inspiration
 Pikasso (Pic Association) was created because we believe in the value of photos, especially those of spaces which have a special meaning to individuals. Our goal is to uncover and analyze the subconscious mechanisms underlying our interests and lifestyle choices to connect users with others through machine learning. We hope to find connections in aspects not of the explicit nature, such as listing down interests and hobbies, but of the implicit.
 
