@@ -8,6 +8,7 @@ import {
     ListItemAvatar,
     Avatar
 } from '@material-ui/core';
+import _ from 'lodash';
 import './styles.scss';
 
 
@@ -23,11 +24,28 @@ export default class Results extends Component {
             }
         });
 
-        
+        const results = data.sort((obj1, obj2) => obj1.closeness_ranking - obj2.closeness_ranking)
         this.state = {
-            results: data.sort((obj1, obj2) => obj1.closeness_ranking - obj2.closeness_ranking),
+            results: results.length? results : [],
             selected: -1,
         }
+    }
+
+    componentDidUpdate(prevProps) {
+        if(_.deepEquals(this.props.matchData, prevProps.matchData)){
+            const data = Object.entries(this.props.matchData).map(([id, obj]) => {
+                return {
+                    id,
+                    ...obj,
+                }
+            });
+    
+            const results = data.sort((obj1, obj2) => obj1.closeness_ranking - obj2.closeness_ranking)
+            this.setState({
+                results: results.length? results : undefined,
+            });
+        }
+        
     }
 
     static defaultProps = {
@@ -171,7 +189,7 @@ export default class Results extends Component {
 
         return (
             <div className="results-wrapper">
-            {this.state.results === [] || this.props.imageData === undefined ? (
+            {!this.state.results || this.props.imageData === undefined ? (
                 <div className="loading-screen">
                     <CircularProgress disableShrink className="loading-icon" size={100}/>
                     <p>Matching you to other profiles...</p>
