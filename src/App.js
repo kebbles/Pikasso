@@ -32,7 +32,10 @@ class App extends React.Component {
     axios.post('http://127.0.0.1:3000/image_learn', model,
       {"headers": {'content-type': 'multipart/form-data'}})
       .then(res => {
-        this.setState({matchData: res.data });
+        this.setState({
+          matchData: res.data.matches,
+          imageData: res.data.self
+         });
       })
   }
 
@@ -48,7 +51,7 @@ class App extends React.Component {
         </AppBar>
         <div className="App">
           <Switch>
-            <Route path="/result"><Results matchData={this.state.matchData} /></Route>
+            <Route path="/result"><Results matchData={this.state.matchData} imageData={this.state.imageData} /></Route>
             <Route path="/"><Landing handleSubmit={this.handleSubmit} /> </Route>
           </Switch>
         </div>
