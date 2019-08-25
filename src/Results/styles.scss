@@ -111,6 +111,9 @@
     padding: 50px;
     position: fixed;
     width: 30.5%;
+    //animation: profileEntry 0.3s;
+    transition: right 0.2s !important;
+    right: 50px;
     .profile__header {
         display: flex;
         h2 {
@@ -122,4 +125,9 @@
         margin-top: 0px;
     }
     
+}
+
+@keyframes profileEntry {
+    from {right: -30.5%;}
+    to {right: 5%;}
 }

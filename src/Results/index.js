@@ -63,9 +63,17 @@ export default class Results extends Component {
         setTimeout(() => {
             this.setState({ results: data, imageData: imageData });
         });
+
+        
     }
 
     renderMatchList = () => {
+        const switchProfile = (num) => {
+            this.profileRef.setAttribute('style', 'right: -30.5%');
+            setTimeout(() => {
+                this.setState({ selected: num}, () => this.profileRef.setAttribute('style', 'right: 50px'));
+            }, 200);
+        }
         return (
             <Paper>
                 <Typography className="match__list__header">
@@ -80,7 +88,7 @@ export default class Results extends Component {
                                 button 
                                 className="match__item" 
                                 key={i} 
-                                onClick={() => this.setState({selected: i})}
+                                onClick={() => switchProfile(i)}
                                 selected={i === this.state.selected}>
                                     <ListItemAvatar>
                                         <Avatar 
@@ -125,7 +133,8 @@ export default class Results extends Component {
     }
 
     render() {
-        const { selected } = this.state;
+        const {selected, results } = this.state;
+
         return (
             <div className="results-wrapper">
             {this.state.results === undefined || this.state.imageData === undefined ? (
@@ -144,20 +153,20 @@ export default class Results extends Component {
                             {this.renderMatchList()}
                         </div>
                         <div className="column-right">
-                            <Paper className="profile-info">
+                            <Paper className="profile-info" ref={r => this.profileRef = r}>
                                 {selected === -1? (
-                                    <h2>Select a profile.</h2>
-                                    ) : (
-                                        <>
-                                        <div className="profile__header">
-                                        <Avatar src={`https://api.adorable.io/avatars/122/${this.state.results[selected].name.replace(' ', '')}.png`} />
-                                        <h2>{this.state.results[selected].name}</h2>
-                                        </div>
-                                        <p className="MuiTypography-body1">{this.state.results[selected].info}</p>
-                                        {this.renderImageData(this.state.results[selected].matchItems)}
-                                        </>
-                                    )}
-                                </Paper>
+                                <h2>Select a profile.</h2>
+                                ) : (
+                                <>
+                                    <div className="profile__header">
+                                    <Avatar src={`https://api.adorable.io/avatars/122/${results[selected].name.replace(' ', '')}.png`} />
+                                    <h2>{results[selected].name}</h2>
+                                    </div>
+                                    <p className="MuiTypography-body1">{results[selected].info}</p>
+                                    {this.renderImageData(results[selected].matchItems)}
+                                </>
+                                )}
+                            </Paper>
                         </div>
                     </div>
                 </>
