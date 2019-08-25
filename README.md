@@ -2,7 +2,9 @@
 
 ## Contributors
 Hayden Wang - kebbles
+
 Xi Xin (Eric) Liang - Exxliang
+
 Enoch Poon - EnochPoon
 
 ## Inspiration
